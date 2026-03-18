@@ -1,4 +1,10 @@
 .backups
+.*.json
+.contents
+.htaccess
+.readme.html
+.header.html
+.info
 tags
 *.a
 *.o
