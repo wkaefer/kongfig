@@ -58,5 +58,5 @@ $ cd ~/.kongfig && find . -ls | cut -c72-122
 | k5f2.h               | 📑 | Libk5f2                                    |
 | kongfig.c            | 📄 | Test Program                               |
 | libkongfig.c         | 📄 | Functions                                  |
-| libkongfig.h         | 📑 | Destination                                |
+| libkongfig.h         | 📑 | Definitions                                |
 | makefile             | 🚂 | Instructions                               |
