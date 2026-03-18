@@ -11,6 +11,27 @@ kongfig -k name -v "Fred Flintstone"
 kongfig -k city -v "Bedrock"
 </code></pre>
 <p>Use File Utilities(ls,rm,find,...) to Manage configuration</p>
+<h2>Example</h2>
+<pre><code class="language-sh">kongfig -k name -v 'Fred Flintstone'
+Fred Flintstone
+kongfig -k wife -v 'Wilma'
+Wilma
+kongfig -k children -v 1
+1
+kongfig -n child1 -k name -v Pebbles
+Pebbles
+kongfig -k city -v Bedrock
+Bedrock
+
+$ cd ~/.kongfig &amp;&amp; find . -ls | cut -c72-122
+ .
+ ./child1
+ ./child1/name -&gt; Pebbles
+ ./wife -&gt; Wilma
+ ./name -&gt; Fred\ Flintstone
+ ./children -&gt; 1
+ ./city -&gt; Bedrock
+</code></pre>
 <h2>ToDo</h2>
 <pre><code>* Rename kongfig kongfig test
 * Create kongfig as shell script
