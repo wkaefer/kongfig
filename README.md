@@ -1,6 +1,6 @@
 # libKongfig #
 
-Gorilla configuration methods using 
+🦍 Gorilla configuration methods using 
 	Symbolic links as keys and  Target as Value.
 
 	get_kongfig(application,key);
@@ -12,7 +12,16 @@ Gorilla configuration methods using
 
 Use File Utilities(ls,rm,find,...) to Manage configuration
 
+Remember ... This is just an experiment...👀
+
+## Why ## 
+
+* 🦍 Gorilla Numbers is sometimes all you need.
+* 🦍 Gorilla Code is sometimes all you need as well.
+
 ## Example ##
+
+See makefile target test for more experiments.
 
 ```sh
 kongfig -k name -v 'Fred Flintstone'
@@ -38,18 +47,14 @@ $ cd ~/.kongfig && find . -ls | cut -c72-122
 
 ## ToDo ##
 
-	* Rename kongfig kongfig test
-	* Create kongfig as shell script
-	* Inconsistencies between name(path) and names like name.first (depth)
+	* Inconsistencies between name(path) and names like name.first (depth) 👀
+	* Needs Character Validation in lib program 
 
-## Enhancement Ideas ##
+## Ideas ##
 
 	* key.selection -> file containing allowed values
 	* key.exec      -> script to execute on change.
 	* use files to store Target for Binary or large Values
-
-## More Ideas ##
-
 	* create web page to edit config for process
   
 ## Files ##
