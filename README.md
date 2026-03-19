@@ -40,6 +40,7 @@ $ cd ~/.kongfig && find . -ls | cut -c72-122
 
 	* Rename kongfig kongfig test
 	* Create kongfig as shell script
+	* Inconsistencies between name(path) and names like name.first (depth)
 
 ## Enhancement Ideas ##
 
@@ -56,7 +57,9 @@ $ cd ~/.kongfig && find . -ls | cut -c72-122
 | File                 | 🧿 | Description                                |
 |----------------------|----|--------------------------------------------|
 | k5f2.h               | 📑 | Libk5f2                                    |
-| kongfig.c            | 📄 | Test Program                               |
+| kongfig              | 🔩 | Shell Version                              |
+| kongfigtest          | 🔨 | Test Program                               |
+| kongfigtest.c        | 📄 | Test Program                               |
 | libkongfig.c         | 📄 | Functions                                  |
 | libkongfig.h         | 📑 | Definitions                                |
 | makefile             | 🚂 | Instructions                               |

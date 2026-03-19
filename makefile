@@ -12,12 +12,12 @@ PREFIX:= ${HOME}/bin
 
 all:	k5f2.h.gch
 	+make libkongfig.a
-	+make kongfig
+	+make kongfigtest
 
 libkongfig.a: libkongfig.a(libkongfig.o)
-kongfig: kongfig.c
-	$(CC) $(CFLAGS) kongfig.c $(LDFLAGS) -o $@
-clean:; rm -f libkongfig.a kongfig *.o tags *.gch
+kongfigtest: kongfigtest.c
+	$(CC) $(CFLAGS) kongfigtest.c $(LDFLAGS) -o $@
+clean:; rm -f libkongfig.a kongfigtest *.o tags *.gch
 
 ctags:
 	ctags *.c
@@ -29,21 +29,24 @@ install:
 test:
 	rm -rf tmp
 	mkdir -p tmp
-	KONGFIG=tmp ./kongfig 
-	KONGFIG=tmp ./kongfig -k name -v 'Fred'
-	KONGFIG=tmp ./kongfig -k name 
-	KONGFIG=tmp ./kongfig -k name -v 'Sam'
-	KONGFIG=tmp ./kongfig -k name 
-	@find tmp/ -ls
+	KONGFIG=tmp make flintstones
+	KONGFIG=tmp ./kongfigtest
+	KONGFIG=tmp ./kongfigtest -k name -v 'Fred'
+	KONGFIG=tmp ./kongfigtest -k name 
+	KONGFIG=tmp ./kongfigtest -k name -v 'Sam'
+	KONGFIG=tmp ./kongfigtest -k name 
+	KONGFIG=tmp kongfig
+	KONGFIG=tmp kongfig league
 	@rm -rf tmp
 
 flintstones:
-	kongfig -k name -v 'Fred Flintstone'
-	kongfig -k wife -v 'Wilma'
-	kongfig -k children -v 1
-	kongfig -n child1 -k name -v Pebbles
-	kongfig -k city -v Bedrock
-	find ~/.kongfig -ls
+	kongfigtest -k name -v 'Fred Flintstone'
+	kongfigtest -k wife -v 'Wilma'
+	kongfigtest -k children -v 1
+	kongfigtest -n child1 -k name -v Pebbles
+	kongfigtest -k city -v Bedrock
+	kongfig lodge "Loyal Order of Water Buffaloes"
+	kongfig league "Bedrock Bowling League 🎳"
 
 
 #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/**--__

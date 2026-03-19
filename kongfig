@@ -1,0 +1,45 @@
+#!/bin/sh
+KONGFIG=${KONGFIG:-$HOME/.kongfig}
+echo KONGFIG=$KONGFIG
+isok()
+{
+	case "$1" in
+		*/*)	return 1;;
+	esac
+	return 0
+}
+case "$#" in
+	-*)	echo No Options;exit 1;;
+	0)	if [ -d "$KONGFIG" ] ; then
+			find $KONGFIG -ls
+		fi
+		;;
+	1)	K="$KONGFIG/$1"
+		if isok "${1}" ; then
+			if [ -L "$K" ] ; then
+				ls -l "$K"
+			fi
+		else
+			echo  "Invalid Character in Key"
+			exit 1
+		fi
+			
+		;;
+	2)	K="$KONGFIG/$1"
+		V="$2"
+		if isok "$1" ; then
+			if isok "$V" ; then
+				mkdir -p "$KONGFIG"
+				ln -snf "$V" "$K"
+			else
+				echo  "Invalid Character in Value for Assignment"
+				exit 1
+			fi
+		else
+			echo  "Invalid Character in Key for Assignment"
+			exit 1
+		fi
+		;;
+esac
+		
+	
