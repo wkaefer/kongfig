@@ -14,7 +14,7 @@ Use File Utilities(ls,rm,find,...) to Manage configuration
 
 Remember ... This is just an experiment...👀
 
-## Why ## 
+## Why ##
 
 * 🦍 Gorilla Numbers is sometimes all you need.
 * 🦍 Gorilla Code is sometimes all you need as well.
