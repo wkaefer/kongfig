@@ -1,0 +1,95 @@
+.TH KONGFIG 1 "2026-03-22" "kongfig" "User Commands"
+.SH NAME
+kongfig \- manage simple configuration values via symbolic links
+.SH SYNOPSIS
+.B kongfig
+.br
+.B kongfig
+.I key
+.br
+.B kongfig
+.I key value
+.SH DESCRIPTION
+.B kongfig
+stores configuration entries as symbolic links in a directory tree.
+
+By default, the storage directory is:
+.IP
+.B $HOME/.kongfig
+
+If the environment variable
+.B KONGFIG
+is set, that path is used instead.
+
+The command supports three forms:
+.TP
+.B kongfig
+List entries in the configured directory (if it exists).
+.TP
+.B kongfig 
+.I key
+Show a single entry for
+.IR key .
+If the key exists and is a symbolic link, the command prints link details.
+.TP
+.B kongfig
+.I key value
+Create or replace
+.I key
+so it points to
+.IR value .
+
+.SH ARGUMENTS
+.TP
+.I key
+Configuration key name. The key must not contain the slash character
+.RB ( / ).
+.TP
+.I value
+Configuration value. In this implementation, values are stored as symlink
+targets and must not contain
+.RB ( / )
+when assigned through
+.BR kongfig .
+
+.SH ENVIRONMENT
+.TP
+.B KONGFIG
+Root directory used by the command.
+Default: 
+.BR $HOME/.kongfig .
+
+.SH EXIT STATUS
+.TP
+.B 0
+Success.
+.TP
+.B 1
+Invalid input (for example, key/value contains slash) or an option-like
+argument is passed.
+
+.SH EXAMPLES
+.nf
+KONGFIG=/tmp/kfg kongfig name "Fred Flintstone"
+KONGFIG=/tmp/kfg kongfig name
+KONGFIG=/tmp/kfg kongfig
+.fi
+
+.SH NOTES
+.IP \[bu] 2
+The current script prints the selected storage directory as
+.B KONGFIG=<path>
+on each run.
+.IP \[bu] 2
+The command does not support option flags such as
+.B -k
+or
+.BR -v .
+Those flags belong to the separate
+.B kongfigtest
+program in this repository.
+
+.SH SEE ALSO
+.BR kongfigtest (1),
+.BR ln (1),
+.BR readlink (1)
