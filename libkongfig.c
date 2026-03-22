@@ -10,16 +10,21 @@ static char pool[KONGFIG_POOL_SIZE][KONGFIG_MAX_VALSIZE+2];
 static int pool_index=0;
 
 static char kongfigpath[ABSOLUTE_MAX_KEYSIZE+2];
+static char kongfigbase[ABSOLUTE_MAX_KEYSIZE+2];
 static char *kongpath(char *a,char *k)
 {
 	int cc;
-	char *h,d[ABSOLUTE_MAX_KEYSIZE+2],*s;
+	char *h,*base,d[ABSOLUTE_MAX_KEYSIZE+2],*s;
 	if ( !a ) a="";
 	h=getenv("KONGFIG");
 	verbose("KONGFIG=%s",h?h:"");
-	if ( ! h ) {
+	if ( h ) {
+		base=h;
+	} else {
 	    h=getenv("HOME");
 	    if ( ! h ) h="./";
+	    snprintf(kongfigbase,ABSOLUTE_MAX_KEYSIZE,"%s/.kongfig",h);
+	    base=kongfigbase;
 	}
 	if ( ! a ) {
 		error("invalid null app");
@@ -33,17 +38,16 @@ static char *kongpath(char *a,char *k)
 		error("invalid key size %60.60s...",k);
 		return(NULL);
 	}
-	cc=snprintf(d,ABSOLUTE_MAX_KEYSIZE,"%s/.kongfig",h);
-	verbose("directory %s cc=%d",d,cc);
-	if ( cc < ABSOLUTE_MAX_KEYSIZE ) mkdir(d,0755);
+	verbose("directory %s",base);
+	mkdir(base,0755);
 	/////////////////////////////////////////////////////////
 	s="/";
 	if ( strlen(a)==0 ) s="";
-	cc=snprintf(d,ABSOLUTE_MAX_KEYSIZE,"%s/.kongfig%s%s",h,s,a);
+	cc=snprintf(d,ABSOLUTE_MAX_KEYSIZE,"%s%s%s",base,s,a);
 	verbose("directory %s",d);
 	if ( cc < ABSOLUTE_MAX_KEYSIZE ) mkdir(d,0755);
 	/////////////////////////////////////////////////////////
-	cc=snprintf(kongfigpath,ABSOLUTE_MAX_KEYSIZE,"%s/.kongfig%s%s/%s",h,s,a,k);
+	cc=snprintf(kongfigpath,ABSOLUTE_MAX_KEYSIZE,"%s%s%s/%s",base,s,a,k);
 	if ( cc >= ABSOLUTE_MAX_KEYSIZE ) {
 		error("overrun in %s for %60.60s...",__FUNCTION__,k);
 		return(NULL);

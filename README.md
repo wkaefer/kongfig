@@ -1,70 +1,137 @@
-# libKongfig #
+# libKongfig + kongfig 🦍⚙️
 
-🦍 Gorilla configuration methods using 
-	Symbolic links as keys and  Target as Value.
+Gorilla-simple configuration using symbolic links as key/value storage. 🔗
 
-	get_kongfig(application,key);
-	set_kongfig(application,key,value);
+- Key = symlink name 🏷️
+- Value = symlink target 🎯
 
-	Kept in $HOME/.kongfig or by environment variable KONGFIG
-	kongfig -k name -v "Fred Flintstone"
-	kongfig -k city -v "Bedrock"
+C API:
 
-Use File Utilities(ls,rm,find,...) to Manage configuration
-
-Remember ... This is just an experiment...👀
-
-## Why ##
-
-* 🦍 Gorilla Numbers is sometimes all you need.
-* 🦍 Gorilla Code is sometimes all you need as well.
-
-## Example ##
-
-See makefile target test for more experiments.
-
-```sh
-kongfig -k name -v 'Fred Flintstone'
-Fred Flintstone
-kongfig -k wife -v 'Wilma'
-Wilma
-kongfig -k children -v 1
-1
-kongfig -n child1 -k name -v Pebbles
-Pebbles
-kongfig -k city -v Bedrock
-Bedrock
-
-$ cd ~/.kongfig && find . -ls | cut -c72-122
- .
- ./child1
- ./child1/name -> Pebbles
- ./wife -> Wilma
- ./name -> Fred\ Flintstone
- ./children -> 1
- ./city -> Bedrock
+```c
+get_kongfig(application, key);
+set_kongfig(application, key, value);
 ```
 
-## ToDo ##
+Storage location:
 
-	* Inconsistencies between name(path) and names like name.first (depth) 👀
-	* Needs Character Validation in lib program 
+- Default: `$HOME/.kongfig` 🏠
+- Override with environment variable: `KONGFIG` 🌿
 
-## Ideas ##
+This project is intentionally minimal and experimental. 👀
 
-	* key.selection -> file containing allowed values
-	* key.exec      -> script to execute on change.
-	* use files to store Target for Binary or large Values
-	* create web page to edit config for process
-  
-## Files ##
+## Why 🧠
+
+- 🦍 Gorilla numbers are sometimes all you need.
+- 🦍 Gorilla code is sometimes all you need too.
+- 🔧 Filesystem-native config can be inspected with normal tools.
+
+## What Is In This Repo 📦
+
+- `kongfig`: shell CLI using positional arguments (`key` and optional `value`) 🔩
+- `libkongfig.c`, `libkongfig.h`: C library API 🧪
+- `kongfigtest`, `kongfigtest.c`: test/demo binary and source 🔨
+- `makefile`: build/install/test targets 🚂
+
+## Build And Install 🛠️
+
+Build:
+
+```sh
+make
+```
+
+Install command + man page:
+
+```sh
+make install
+```
+
+## Correct CLI Usage ✅
+
+### `kongfig` (shell script)
+
+`kongfig` uses positional arguments (not `-k/-v` flags):
+
+```text
+kongfig
+kongfig <key>
+kongfig <key> <value>
+```
+
+Behavior:
+
+- `kongfig` → list current entries in `$KONGFIG`
+- `kongfig <key>` → show a single key symlink
+- `kongfig <key> <value>` → create/update key to point to value
+
+Validation rules:
+
+- Key cannot contain `/` 🚫
+- Value cannot contain `/` when assigning with shell `kongfig` 🚫
+
+Note: current script prints `KONGFIG=<path>` on invocation. 📝
+
+### `kongfigtest` (C demo tool)
+
+`kongfigtest` supports option flags:
+
+```text
+kongfigtest -k <key>
+kongfigtest -k <key> -v <value>
+kongfigtest -n <name> -k <key>
+kongfigtest -n <name> -k <key> -v <value>
+kongfigtest -d
+```
+
+Use `-d` to increase verbosity. 🔍
+
+## Examples 💡
+
+Shell `kongfig`:
+
+```sh
+KONGFIG=/tmp/kongfig-demo kongfig name "Fred Flintstone"
+KONGFIG=/tmp/kongfig-demo kongfig wife Wilma
+KONGFIG=/tmp/kongfig-demo kongfig city Bedrock
+KONGFIG=/tmp/kongfig-demo kongfig
+```
+
+C demo `kongfigtest`:
+
+```sh
+KONGFIG=/tmp/kongfig-demo ./kongfigtest -k name -v "Fred Flintstone"
+KONGFIG=/tmp/kongfig-demo ./kongfigtest -k name
+KONGFIG=/tmp/kongfig-demo ./kongfigtest -n child1 -k name -v Pebbles
+```
+
+## Storage Model 🔗
+
+Keys are stored directly under `$KONGFIG` (same in both the shell tool and the C library):
+
+```text
+$KONGFIG/<app>/<key>    # app is optional (empty = root level)
+```
+
+When `KONGFIG` is not set, both tools default to `$HOME/.kongfig`.
+
+## ToDo / Ideas 🚀
+
+- Validate key/value characters more strictly in library code
+- Clarify depth/path semantics (for names like `name.first`)
+- Add optional allowed-value files (for example `key.selection`)
+- Add optional hook execution on change (for example `key.exec`)
+- Support file-backed values for large or binary content
+
+## Files 📚
 
 | File                 | 🧿 | Description                                |
 |----------------------|----|--------------------------------------------|
 | k5f2.h               | 📑 | Libk5f2                                    |
 | kongfig              | 🔩 | Shell Version                              |
+| kongfig.1            | 📄 | Man Page                                   |
 | kongfigtest          | 🔨 | Test Program                               |
 | kongfigtest.c        | 📄 | Test Program                               |
 | libkongfig.c         | 📄 | Functions                                  |
 | libkongfig.h         | 📑 | Definitions                                |
 | makefile             | 🚂 | Instructions                               |
+| README2.md           | 📝 | Markdown file                              |

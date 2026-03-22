@@ -5,7 +5,8 @@ AR=ar
 EC=echo $@
 ARFLAGS=rU
 LDFLAGS:= -g -L. -lkongfig
-PREFIX:= ${HOME}/bin
+PREFIX:= ${HOME}/.local
+MANPREFIX:= ${PREFIX}/share/man
 .SUFFIXES: .gch .h.gch
 .h.h.gch:
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -22,9 +23,15 @@ clean:; rm -f libkongfig.a kongfigtest *.o tags *.gch
 ctags:
 	ctags *.c
 
-install:
-	cp kongfig ${PREFIX}/
-	
+install: install-man
+	@mkdir -p ${PREFIX}/bin
+	@cp kongfig ${PREFIX}/bin/
+	@printf "\033[36;1m%42.42s\033[0m\n" ${PREFIX}/bin/kongfig
+
+install-man:
+	@mkdir -p ${MANPREFIX}/man1
+	@cp kongfig.1 ${MANPREFIX}/man1/
+	@printf "\033[36;1m%42.42s\033[0m\n" ${MANPREFIX}/man1/kongfig.1
 
 test:
 	rm -rf tmp
