@@ -24,14 +24,12 @@ ctags:
 	ctags *.c
 
 install: install-man
-	@mkdir -p ${PREFIX}/bin
-	@cp kongfig ${PREFIX}/bin/
-	@printf "\033[36;1m%42.42s\033[0m\n" ${PREFIX}/bin/kongfig
+	@mkdir -p "${PREFIX}/bin"
+	@cp -v kongfig "${PREFIX}/bin/"
 
 install-man:
-	@mkdir -p ${MANPREFIX}/man1
-	@cp kongfig.1 ${MANPREFIX}/man1/
-	@printf "\033[36;1m%42.42s\033[0m\n" ${MANPREFIX}/man1/kongfig.1
+	@mkdir -p "${MANPREFIX}/man1"
+	@cp -v kongfig.1 "${MANPREFIX}/man1/"
 
 test:
 	rm -rf tmp
