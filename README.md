@@ -134,3 +134,4 @@ When `KONGFIG` is not set, both tools default to `$HOME/.kongfig`.
 | libkongfig.c         | 📄 | Functions                                  |
 | libkongfig.h         | 📑 | Definitions                                |
 | makefile             | 🚂 | Instructions                               |
+| .github              | 📁 | GitHub Instructions                        |
