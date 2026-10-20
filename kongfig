@@ -1,0 +1,73 @@
+#!/bin/sh
+KONGFIG=${KONGFIG:-$HOME/.config/kongfig}
+echo KONGFIG=$KONGFIG
+isok()
+{
+	case "$1" in
+		*/*)	return 1;;
+	esac
+	return 0
+}
+BASE=$KONGFIG
+SUB=
+n=0
+key=
+val=
+for a in "$@"; do
+	case "$a" in
+	--*)
+		if [ -n "$SUB" ]; then
+			echo  "Multiple Subfolders"
+			exit 1
+		fi
+		SUB=${a#--}
+		case "$SUB" in
+		""|.|..|-* )
+			echo  "Invalid Character in Subfolder"
+			exit 1
+			;;
+		esac
+		if isok "$SUB"; then
+			BASE=$KONGFIG/$SUB
+		else
+			echo  "Invalid Character in Subfolder"
+			exit 1
+		fi
+		;;
+	*)
+		n=$((n + 1))
+		case $n in
+		1)	key=$a;;
+		2)	val=$a;;
+		esac
+		;;
+	esac
+done
+case "$n" in
+	0)	if [ -d "$BASE" ] ; then
+			find "$BASE" -ls
+		fi
+		;;
+	1)	K="$BASE/$key"
+		if isok "$key" ; then
+			if [ -L "$K" ] ; then
+				ls -l "$K"
+			fi
+		else
+			echo  "Invalid Character in Key"
+			exit 1
+		fi
+			
+		;;
+	2)	K="$BASE/$key"
+		if isok "$key" ; then
+			mkdir -p "$BASE"
+			ln -snf "$val" "$K"
+		else
+			echo  "Invalid Character in Key for Assignment"
+			exit 1
+		fi
+		;;
+esac
+		
+	

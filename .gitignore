@@ -1,0 +1,13 @@
+.backups/
+.header.html
+.readme.html
+.htaccess
+.contents
+.info
+
+.*.json
+tags
+*.a
+*.o
+*.gch
+kongfigtest

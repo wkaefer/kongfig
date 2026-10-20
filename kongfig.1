@@ -1,0 +1,130 @@
+.TH KONGFIG 1 "2026-10-13" "kongfig" "User Commands"
+.SH NAME
+kongfig \- manage simple configuration values via symbolic links
+.SH SYNOPSIS
+.B kongfig
+.RI [ \-\-folder ]
+.br
+.B kongfig
+.RI [ \-\-folder ]
+.I key
+.br
+.B kongfig
+.RI [ \-\-folder ]
+.I key
+.I value
+.SH DESCRIPTION
+.B kongfig
+stores configuration entries as symbolic links in a directory tree.
+
+By default, the storage directory is:
+.IP
+.B $HOME/.config/kongfig
+
+If the environment variable
+.B KONGFIG
+is set, that path is used instead.
+
+A parameter that begins with
+.B \-\-
+names a subfolder of that directory. The leading dashes are not part of
+the folder name. It may appear in any position; the remaining parameters
+are the key and optional value.
+
+The command supports three forms:
+.TP
+.B kongfig
+.RI [ \-\-folder ]
+List entries in the configured directory, or in
+.I folder
+when given (if it exists).
+.TP
+.B kongfig
+.RI [ \-\-folder ]
+.I key
+Show a single entry for
+.IR key .
+If the key exists and is a symbolic link, the command prints link details.
+.TP
+.B kongfig
+.RI [ \-\-folder ]
+.I key value
+Create or replace
+.I key
+so it points to
+.IR value .
+With
+.BR \-\-folder ,
+the link is created at
+.IR $KONGFIG/folder/key .
+
+.SH ARGUMENTS
+.TP
+.I \-\-folder
+Subfolder of the storage directory. The name after the leading dashes
+must not contain
+.BR / ,
+and must not be
+.B .
+or
+.BR .. .
+.TP
+.I key
+Configuration key name. The key must not contain the slash character
+.RB ( / ).
+.TP
+.I value
+Configuration value. Values are stored as symlink targets and may contain
+.RB ( / ),
+so a target may be a filesystem path.
+
+.SH ENVIRONMENT
+.TP
+.B KONGFIG
+Root directory used by the command.
+Default: 
+.BR $HOME/.config/kongfig .
+
+.SH EXIT STATUS
+.TP
+.B 0
+Success.
+.TP
+.B 1
+Invalid input (for example, a key or subfolder contains a slash,
+or more than one subfolder is given).
+
+.SH EXAMPLES
+.nf
+KONGFIG=/tmp/kfg kongfig name "Fred Flintstone"
+KONGFIG=/tmp/kfg kongfig name
+KONGFIG=/tmp/kfg kongfig
+KONGFIG=/tmp/kfg kongfig --xyz a b
+.fi
+.PP
+The last example stores
+.I b
+at
+.BR /tmp/kfg/xyz/a .
+
+.SH NOTES
+.IP \[bu] 2
+The current script prints the selected storage directory as
+.B KONGFIG=<path>
+on each run.
+.IP \[bu] 2
+The command does not support option flags such as
+.B -k
+or
+.BR -v .
+A parameter beginning with
+.B \-\-
+names a subfolder, not an option.
+Those flags belong to the separate
+.B kongfigtest
+program in this repository.
+
+.SH SEE ALSO
+.BR kongfigtest (1),
+.BR ln (1),
+.BR readlink (1)
